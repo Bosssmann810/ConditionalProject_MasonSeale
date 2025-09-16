@@ -10,44 +10,53 @@ namespace ConditionalProject_MasonSeale
     internal class Program
     {
         static int Health = 100;
-  
+        static int enemyhealth = 100;
         static int weapon = 0;
 
         static void Main(string[] args)
         {
-            hud();
-            takeDamage(20);
-            hud();
-            changeweapon(2);
-            hud();
-            heal(10);
-            hud();
-            takeDamage(50);
-            hud();
+            while (true)
+            {
+                hud();
+                playerchoice();
+                if (enemyhealth <= 0)
+                {
+                    break;
+                }
+                hud();
+                takeDamage(10);
+                if (Health <= 0)
+                {
+                    break;
+                }
+            }
         }
         static void takeDamage(int amount)
         {
-            Console.WriteLine($"Took {amount} damage");
-            Health -= amount;
-            if (Health > 75)
+            if (enemyhealth > 0)
             {
-                Console.WriteLine("Perfectly healthy");
-            }
-            else if (Health > 50)
-            {
-                Console.WriteLine("Healthy");
-            }
-            else if (Health > 25)
-            {
-                Console.WriteLine("injured");
-            }
-            else if (Health > 10)
-            {
-                Console.WriteLine("Critical");
-            }
-            else if (Health <= 0)
-            {
-                Console.WriteLine("Game over");
+                Console.WriteLine($"THE ENEMY ATTACKS, Took {amount} damage");
+                Health -= amount;
+                if (Health > 75)
+                {
+                    Console.WriteLine("Perfectly healthy");
+                }
+                else if (Health > 50)
+                {
+                    Console.WriteLine("Healthy");
+                }
+                else if (Health > 25)
+                {
+                    Console.WriteLine("injured");
+                }
+                else if (Health > 10)
+                {
+                    Console.WriteLine("Critical");
+                }
+                else if (Health <= 0)
+                {
+                    Console.WriteLine("Game over");
+                }
             }
         }
         static void changeweapon(int swap)
@@ -80,6 +89,45 @@ namespace ConditionalProject_MasonSeale
             }
 
         }
+        static void attack(int amount)
+        {
+            if (Health > 0)
+            {
+               
+                Console.WriteLine("YOU ATACKED");
+                enemyhealth -= 10;
+                if (enemyhealth <= 0)
+                {
+                    Console.WriteLine("YOU WIN");
+                    
+                }
+            }
+        }
+        static void playerchoice()
+        {
+            while(true)
+            {
+                Console.WriteLine("Your move (A to attack, H to heal)");
+                ConsoleKeyInfo key = Console.ReadKey();
+                if (key.Key == ConsoleKey.A)
+                {
+                    Console.Clear();
+                    attack(10);
+                    return;
+                }
+                else if (key.Key == ConsoleKey.H)
+                {
+                    Console.Clear();
+                    heal(20);
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Invaled");
+                }
+            }
+        }
+
         static void hud()
         {
             Console.WriteLine($"health: {Health}     Weapon: {whatweapon()}");
