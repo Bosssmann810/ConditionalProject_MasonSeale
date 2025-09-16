@@ -24,7 +24,7 @@ namespace ConditionalProject_MasonSeale
                     break;
                 }
                 hud();
-                takeDamage(10);
+                takeDamage(15);
                 if (Health <= 0)
                 {
                     break;
