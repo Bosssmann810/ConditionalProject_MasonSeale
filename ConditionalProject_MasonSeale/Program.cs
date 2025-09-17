@@ -10,8 +10,11 @@ namespace ConditionalProject_MasonSeale
     internal class Program
     {
         static int Health = 100;
-        static int enemyhealth = 100;
-        static int weapon = 0;
+        static int enemyhealth = 200;
+        static int CurrentWeapon = 0;
+        static string[] Weapon = {"fist", "dartgun", "pistol", "shotgun", "railgun"};
+        static int[] damage = { 10, 15, 20, 30, 1000 };
+        static int[] currentammo = {0, 5, 4, 3, 1 };
 
         static void Main(string[] args)
         {
@@ -59,9 +62,10 @@ namespace ConditionalProject_MasonSeale
                 }
             }
         }
-        static void changeweapon(int swap)
+        static void changeweapon()
         {
-            weapon = swap;
+            CurrentWeapon += 1;
+            Console.WriteLine($"you searched and found a {Weapon[CurrentWeapon]}");
         }
         static void heal(int amount)
         {
@@ -89,30 +93,56 @@ namespace ConditionalProject_MasonSeale
             }
 
         }
-        static void attack(int amount)
+        static void attack()
         {
             if (Health > 0)
             {
                
                 Console.WriteLine("YOU ATACKED");
-                enemyhealth -= 10;
+                enemyhealth -= damage[CurrentWeapon];
+                
                 if (enemyhealth <= 0)
                 {
                     Console.WriteLine("YOU WIN");
                     
                 }
+                pew();
+            }
+        }
+        static void pew()
+        {
+            if (CurrentWeapon == 0)
+            {
+                return;
+            }
+            else
+            {
+                currentammo[CurrentWeapon] -= 1;
+                while (true)
+                {                
+                    if (currentammo[CurrentWeapon] <= 0)
+                    {
+                        CurrentWeapon -= 1;
+                        if (CurrentWeapon == 0)
+                        {
+                            break;
+                        }
+                    }
+
+                }
+
             }
         }
         static void playerchoice()
         {
             while(true)
             {
-                Console.WriteLine("Your move (A to attack, H to heal)");
+                Console.WriteLine("Your move (A to attack, H to heal, F to search for stuff)");
                 ConsoleKeyInfo key = Console.ReadKey();
                 if (key.Key == ConsoleKey.A)
                 {
                     Console.Clear();
-                    attack(10);
+                    attack();
                     return;
                 }
                 else if (key.Key == ConsoleKey.H)
@@ -121,37 +151,37 @@ namespace ConditionalProject_MasonSeale
                     heal(20);
                     return;
                 }
+                else if (key.Key == ConsoleKey.F)
+                {
+                    Console.Clear();
+                    changeweapon();
+                    return;
+                }
                 else
                 {
                     Console.WriteLine("Invaled");
                 }
             }
         }
-
-        static void hud()
+        static void ammo()
         {
-            Console.WriteLine($"health: {Health}     Weapon: {whatweapon()}");
-            Console.ReadKey();
-            Console.Clear();
-        }
-        static string whatweapon()
-        {
-            if (weapon == 0)
+           if (CurrentWeapon == 0)
             {
-                return "fist";
-            }
-            else if (weapon == 1)
-            {
-                return "pistol";
-            }
-            else if (weapon == 2)
-            {
-                return "Shotgun";
+                Console.WriteLine("current ammo: Infanite");
             }
             else
             {
-                return ("invalide");
+                Console.WriteLine($"Current ammo: {currentammo[CurrentWeapon]}");
             }
         }
-    }
+
+        static void hud()
+        {
+            Console.WriteLine($"health: {Health}     Weapon: {Weapon[CurrentWeapon]}");
+            ammo();
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+    } 
 }
