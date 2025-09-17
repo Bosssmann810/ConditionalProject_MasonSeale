@@ -12,7 +12,7 @@ namespace ConditionalProject_MasonSeale
         static int Health = 100;
         static int enemyhealth = 200;
         static int CurrentWeapon = 0;
-        static string[] Weapon = {"fist", "dartgun", "pistol", "shotgun", "railgun"};
+        static string[] Weapon = {"fist", "dartgun", "pistol", "shotgun", "railgun",};
         static int[] damage = { 10, 15, 20, 30, 1000 };
         static int[] currentammo = {0, 5, 4, 3, 1 };
 
@@ -27,7 +27,7 @@ namespace ConditionalProject_MasonSeale
                     break;
                 }
                 hud();
-                takeDamage(15);
+                takeDamage(1);
                 if (Health <= 0)
                 {
                     break;
@@ -65,7 +65,14 @@ namespace ConditionalProject_MasonSeale
         static void changeweapon()
         {
             CurrentWeapon += 1;
+            if (CurrentWeapon >= 5)
+            {
+                CurrentWeapon = 4;
+                Console.WriteLine("You didnt find anything");
+                return;
+            }
             Console.WriteLine($"you searched and found a {Weapon[CurrentWeapon]}");
+
         }
         static void heal(int amount)
         {
@@ -118,15 +125,12 @@ namespace ConditionalProject_MasonSeale
             else
             {
                 currentammo[CurrentWeapon] -= 1;
-                while (true)
+                
                 {                
                     if (currentammo[CurrentWeapon] <= 0)
                     {
                         CurrentWeapon -= 1;
-                        if (CurrentWeapon == 0)
-                        {
-                            break;
-                        }
+                        
                     }
 
                 }
