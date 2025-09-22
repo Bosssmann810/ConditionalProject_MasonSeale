@@ -13,8 +13,9 @@ namespace ConditionalProject_MasonSeale
         static int enemyhealth = 200;
         static int CurrentWeapon = 0;
         static string[] Weapon = {"fist", "dartgun", "pistol", "shotgun", "railgun",};
-        static int[] damage = { 10, 15, 20, 30, 1000 };
+        static int[] damage = { 10, 15, 20, 30, 100 };
         static int[] currentammo = {0, 5, 4, 3, 1 };
+        static int[] maxedout = {0, 5, 4, 3, 1 };
 
         static void Main(string[] args)
         {
@@ -130,7 +131,7 @@ namespace ConditionalProject_MasonSeale
                     if (currentammo[CurrentWeapon] <= 0)
                     {
                         CurrentWeapon -= 1;
-                        
+                        currentammo[CurrentWeapon + 1] = maxedout[CurrentWeapon + 1];
                     }
 
                 }
@@ -141,7 +142,7 @@ namespace ConditionalProject_MasonSeale
         {
             while(true)
             {
-                Console.WriteLine("Your move (A to attack, H to heal, F to search for stuff)");
+                Console.WriteLine("Your move (A to attack, H to heal, F to search for stuff, R to realod)");
                 ConsoleKeyInfo key = Console.ReadKey();
                 if (key.Key == ConsoleKey.A)
                 {
@@ -161,6 +162,12 @@ namespace ConditionalProject_MasonSeale
                     changeweapon();
                     return;
                 }
+                else if (key.Key == ConsoleKey.R)
+                {
+                    Console.Clear();
+                    reload();
+                    return;
+                } 
                 else
                 {
                     Console.WriteLine("Invaled");
@@ -176,6 +183,18 @@ namespace ConditionalProject_MasonSeale
             else
             {
                 Console.WriteLine($"Current ammo: {currentammo[CurrentWeapon]}");
+            }
+        }
+        static void reload()
+        {
+            if (CurrentWeapon == 0)
+            {
+                Console.WriteLine("You can reload your fists.");
+            }
+            else
+            {
+                Console.WriteLine("Reloaded");
+                currentammo[CurrentWeapon] = maxedout[CurrentWeapon];
             }
         }
 
